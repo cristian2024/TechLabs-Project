@@ -1,0 +1,27 @@
+{
+  "name": "techlabs-project5a-backend",
+  "version": "1.0.0",
+  "description": "This project corresponds to a web development bootcamp known as TechLabs codeathome.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/izarater/techlabs-project5a-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/izarater/techlabs-project5a-backend/issues"
+  },
+  "homepage": "https://github.com/izarater/techlabs-project5a-backend#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "express": "^4.17.1",
+    "mongoose": "^6.0.12",
+    "morgan": "^1.10.0"
+  }
+}

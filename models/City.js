@@ -1,0 +1,16 @@
+const mongoose = require("mongoose");
+
+const citySchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  country_code: {
+    type: Number,
+    required: true
+  }
+})
+
+const City = mongoose.model('City', citySchema);
+
+export default City;
