@@ -22,11 +22,11 @@ function main(){
   mongoose.connect(uri, options).then(
     () => { 
       console.log('Conectado a DB') 
-      User.create({
-        // document: 1000831234,
-        username: 'Lalo',
-        password: 'lambda',
-      })
+      // User.create({
+      //   // document: 1000831234,
+      //   username: 'Lalo',
+      //   password: 'lambda',
+      // })
     },
     err => { console.log(err) }
   )
