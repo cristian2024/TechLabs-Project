@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require('bcrypt');
 
-const ROLES = require("../utils/roles")
+const ROLES = require("../middlewares/auth-user/roles")
 
 // iteraciones de encriptado, entre mas mejor, aunque consume mas recursos
 const saltRounds = 10;
@@ -40,12 +40,22 @@ const userSchema = new mongoose.Schema({
 
 userSchema.pre('save', function(next) {
   const data = this;
+  // console.l
   if (this.isNew || this.isModified('')) {
-    bcrypt.hash(data.password, saltRounds, (error, hasshedPassword) => {
+    bcrypt.hash(data.password, saltRounds, function (error, hasshedPassword) {
       if(error) {
         next(error);
       } else {
+        // verificando que sirva el resultado
+        bcrypt.compare(data.password, hasshedPassword, (err, result) => {
+          console.log(data.password, hasshedPassword)
+          if(err)
+            console.error(err)
+          else
+            console.log(result)
+        })
         // se modifica el valor de la contraseña por una contraseña encriptada
+        console.log(data.password, hasshedPassword)
         data.password = hasshedPassword;
         next()
       }
@@ -56,10 +66,13 @@ userSchema.pre('save', function(next) {
 });
 
 userSchema.method('isCorrectPassword', function (password, callback) {
-  bcrypt.compare(password, this.password, function(err, same) {
+  const data = this;
+  bcrypt.compare(password, data.password, function(err, same) {
+    console.log(password, data.password)
     if(err) {
       callback(err);
     }else {
+      // console.log('Same' , same)
       callback(err, same);
     }
   })
@@ -68,4 +81,4 @@ userSchema.method('isCorrectPassword', function (password, callback) {
 
 const User = mongoose.model('User', userSchema);
 
-module.exports = User;
+module.exports =   User;

@@ -1,8 +1,9 @@
 const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
-const ROLES = require("./utils/roles");
-const User = require( "./models/Users" );
+// const ROLES = require("./middlewares/auth-user/roles");
+// const User = require( "./models/Users" );
+
 
 
 const app = express();
@@ -31,6 +32,8 @@ function main(){
     err => { console.log(err) }
   )
   
+  app.use('/api/authentication', require('./routes/auth'))
+
   // console.log('hola mundo')
 
   app.set('puerto', process.env.PORT || 3000)
