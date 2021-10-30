@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema({
+const countrySchema = new mongoose.Schema({
   code: {
     type: Number,
     required: true
@@ -10,3 +10,5 @@ const userSchema = new mongoose.Schema({
     required: true
   }
 })
+
+module.exports = mongoose.model('Country', countrySchema)

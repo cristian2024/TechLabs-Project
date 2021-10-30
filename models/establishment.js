@@ -1,36 +1,35 @@
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema({
+const establishmentSchema = new mongoose.Schema({
   establishment_name: {
     type: String,
     required: true
   },
   establishment_type: {
     type: String,
-    required: true
-  },
-  establishment_id: {
-    type: Number,
-    required: true
+    // required: true
   },
   city_id: {
-    type: Number,
-    required: true
+    type: mongoose.Schema.Types.ObjectId,
+    // required: true
+    ref: 'City'
   },
   district: {
     type: String,
-    required: true
+    // required: true
   },
   schedule: {
     type: Date,
-    required: true
+    // required: true
   },
   qualification: {
     type: Number,
-    required: true
+    // required: true
   },
   phone: {
     type: Number,
     required: true
   }
 })
+
+module.exports = mongoose.model('Establishment', establishmentSchema);

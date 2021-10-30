@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema({
+const beneficiarySchema = new mongoose.Schema({
   name: {
     type: String,
     required: true
@@ -10,10 +10,6 @@ const userSchema = new mongoose.Schema({
     required: true
   },
   id_type: {
-    type: Number,
-    required: true
-  },
-  id: {
     type: Number,
     required: true
   },
@@ -35,7 +31,7 @@ const userSchema = new mongoose.Schema({
   },
   birth_date: {
     type: Date,
-    required: true
+    required: true  
   },
   birth_country: {
     type: String,
@@ -46,3 +42,6 @@ const userSchema = new mongoose.Schema({
     required: true
   }
 })
+
+// exporting the schema as a mongoose model
+module.exports = mongoose.model('Beneficiary', beneficiarySchema);

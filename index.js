@@ -33,7 +33,7 @@ function main(){
   )
   
   app.use('/api/authentication', require('./routes/auth'))
-
+  app.use('/api/establishment',require('./routes/establishment'))
   // console.log('hola mundo')
 
   app.set('puerto', process.env.PORT || 3000)

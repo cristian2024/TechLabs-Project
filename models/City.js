@@ -13,4 +13,4 @@ const citySchema = new mongoose.Schema({
 
 const City = mongoose.model('City', citySchema);
 
-export default City;
+module.exports = City;
