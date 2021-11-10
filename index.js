@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
+const errorHandler = require('./middlewares/errors/errorHandler')
 // const ROLES = require("./middlewares/auth-user/roles");
 // const User = require( "./models/Users" );
 
@@ -12,6 +13,7 @@ function main(){
   //body parser
   app.use(express.json()); 
   app.use(morgan('tiny'))
+  app.use(errorHandler.errorHandler)
   // app.use(ROLES);
   //
   const username = 'izar';
@@ -36,7 +38,7 @@ function main(){
   app.use('/api/establishment',require('./routes/establishment'))
   // console.log('hola mundo')
 
-  app.set('puerto', process.env.PORT || 3000)
+  app.set('puerto', process.env.PORT || 3001)
 
   app.listen(app.get('puerto'), () => {
     console.log(`Listening http://localhost:${app.get('puerto')}`);

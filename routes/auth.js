@@ -17,7 +17,7 @@ function returnBody(isCompleted, data, error){
 }
 
 
-router.post('/register', async (req, res) => {
+router.post('/signup', async (req, res) => {
   const {
     document,
     name,
@@ -72,8 +72,14 @@ router.post('/register', async (req, res) => {
 })
 
 
-router.post('/login', auth.setUser , async (req, res) => {
-  console.log('we are here')
+router.post('/signin', auth.setUser , async (req, res) => {
+  res.status(200)
+  res.send({ userData: req.userData })
+})
+
+router.post('/changePassword',auth.setUser, auth.changePassword, async (req, res) => {
+  res.status(200)
+  res.send({ changed: true, data: req.userData})
 })
 
 

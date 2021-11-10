@@ -1,5 +1,6 @@
 const ROLES = require('./roles')
 const User = require('../../models/Users');
+const bcrypt = require('bcrypt');
 
 // La idea de este middleware es medir los permisos de los usuarios
 
@@ -10,11 +11,12 @@ async function setUser(req, res, next) {
     username,
     password
   } = req.body;
+  
   try {
     // primero se validara que los datos hallan sido ingresados
     if(username && password){
       // consultando el dato en mongoDb 
-      User.findOne({ user: username }, async (error, result) => {
+      await User.findOne({ username }, async (error, result) => {
         // Zona de validación de resultados
 
         if(error) { // validando posible error
@@ -22,9 +24,8 @@ async function setUser(req, res, next) {
           res.send({ message: `${error}`});
         } else if(result){ // validando que se halla recibido algo desde la base
           // Dado que se encontro un resultado, se procede a comprobar la contraseña
-          
           await result.isCorrectPassword(password, (errorPassword, correct) => {
-            console.log(correct)
+            
             if(errorPassword){ // validando posible error al verificar contraseña
               res.status(400); // codigo 400 dado un error en la solicitud
               res.send({ message: `${errorPassword}`});
@@ -32,6 +33,7 @@ async function setUser(req, res, next) {
               // llegados a este punto, ya se pueden agregar los datos al req para poder continuar con la ejecución
               // antes que nada, y por motivos de seguridad, toca eliminar la llave password del result
               const user = result;
+              
               user.password = undefined; // eliminando la llave
               req.userData = user;// se agrega al req para que este disponible para los siguientes pasos
               // para continuar la ejecución, solo hace falta llamar al 'next'
@@ -47,12 +49,14 @@ async function setUser(req, res, next) {
         }
       }).clone()
     }else {
+      
       // en este punto no se tiene alguno de los dos datos, por lo que no se puede proceder
       res.status(401); // codigo 401 por no poder ser autorizado
       res.send({ message: 'Son necesarios los datos de username y password'});
     }
     
   } catch (error) {
+    console.log("Hola mundo")
     res.status(400); // codigo 400 dado un error en la solicitud
     res.send({ message: `${error}`});
   }
@@ -84,8 +88,66 @@ function authRole(roles){
   }
 }
 
+function changePassword(req, res, next){
+  const newPassword = req.body.newPassword
+  const user = req.userData
+  try {
+    user.password = newPassword;
+    // console.log(newPassword)
+    
+    user.save((error, result) => {
+      if(error){
+        // console.log("change password")
+        next(error)
+      }else if(result) {
+        const userData = user
+        userData.password = undefined
+        userData._id= undefined
+        req.userData= 
+        next()
+      }else{
+        res.status(400)
+        res.send({ changedPassword: false, data: 'The change wasnt complete correctly'})
+      }
+    })
+
+  } catch (error) {
+    next(error)
+    
+  }
+}
+
+// function changePassword(){
+//   return (req, res, next) => {
+//     const newPassword = req.newPassword
+//     const user = req.userData
+//     try {
+//       user.password = newPassword;
+//       user.save((error, result) => {
+//         if(error){
+//           next(error)
+//         }else if(result) {
+//           const userData = user
+//           userData.password = undefined
+//           userData._id= undefined
+//           req.userData= userData
+//         }else{
+//           res.status(400)
+//           res.send({ changedPassword: false, data: 'The change wasnt complete correctly'})
+//         }
+//       })
+
+//     } catch (error) {
+//       next(error)
+//     }
+    
+
+//   }
+// }
+
 
 module.exports = {
   setUser,
-  authRole
+  authRole,
+  changePassword
 }
