@@ -3,6 +3,7 @@ const express = require("express");
 const User = require('../models/Users');
 const auth = require('../middlewares/auth-user/auth')
 // const UsersService = require("../services/user");
+const roles = require('../middlewares/auth-user/roles')
 const bcrypt = require("bcrypt");
 // const { check, validationResult } = require("express-validator");
 
@@ -45,7 +46,7 @@ router.post('/signup', async (req, res) => {
             document,
             name,
             surname,
-            username,
+            username, 
             email,
             rol,
             password
@@ -82,6 +83,11 @@ router.post('/changePassword',auth.setUser, auth.changePassword, async (req, res
   res.send({ changed: true, data: req.userData})
 })
 
+
+router.get('/list-roles', async (req, res) => {
+  res.status(200)
+  res.send(roles)
+})
 
 
 
