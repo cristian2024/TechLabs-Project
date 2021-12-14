@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const types = require("../utils/Types")
 
 const productSchema = new mongoose.Schema({
   establishment_id: {
@@ -6,7 +7,8 @@ const productSchema = new mongoose.Schema({
     required: true
   },
   product_type: {
-    type: String,
+    type: [String],
+    enum: types
     // required: true
   },
   // order_id: {
@@ -20,7 +22,8 @@ const productSchema = new mongoose.Schema({
   elaboration_date: {
     type: String,
     // required: true
-  }
+  },
+  
 })
 
 module.exports = mongoose.model('Product', productSchema)

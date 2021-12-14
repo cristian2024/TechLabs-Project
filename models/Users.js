@@ -6,32 +6,36 @@ const ROLES = require("../middlewares/auth-user/roles")
 // iteraciones de encriptado, entre mas mejor, aunque consume mas recursos
 const saltRounds = 10;
 
-const userSchema = new mongoose.Schema({
-  document: {
-    type: Number,
-    // required: true
-  },
-  name: {
-    type: String,
-    // required: true
-  },
-  surname: {
-    type: String,
-    // required: true
-  },
-  username: {
-    type: String,
-    required: true
-  },
-  email: {
-    type: String,
-    // required: true
-  },
+const rolSchema = new mongoose.Schema({
   rol: {
     type: String,
     default: ROLES.CLIENT,
     enum: ROLES
   },
+  rol_id: {
+    type: mongoose.SchemaTypes.ObjectId,
+    required: true,
+  }
+})
+
+const userSchema = new mongoose.Schema({
+  identification: {
+    type: String,
+    required: true
+  },
+  username: {
+    type: String,
+    // required: true
+  },
+  email: {
+    type: String,
+    // required: true
+  },
+  phone: {
+    type: Number,
+  },
+  rol: rolSchema,
+
   password: {
     type: String,
     required: true

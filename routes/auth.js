@@ -1,13 +1,11 @@
 const express = require("express");
 
-const User = require('../models/Users');
-const auth = require('../middlewares/auth-user/auth')
-// const UsersService = require("../services/user");
-const roles = require('../middlewares/auth-user/roles')
-const bcrypt = require("bcrypt");
-// const { check, validationResult } = require("express-validator");
 
-// the router will receive the petitions from the user part
+const auth = require('../middlewares/auth-user/auth')
+const roles = require('../middlewares/auth-user/roles')
+
+const controller = require('../controllers/authentication')
+
 const router = express.Router();
 
 // body for return information, its just an idea, it could be improve
@@ -16,60 +14,95 @@ function returnBody(isCompleted, data, error){
   this.data = data;
   this.error = error
 }
+'/api/authentication/signup'
 
 
-router.post('/signup', async (req, res) => {
-  const {
-    document,
-    name,
-    surname,
-    username,
-    email,
-    rol,
-    password
-  } = req.body;
 
+router.post('/signup/:type', async (req, res) => {
+  // funcionalidad vieja
+  // const {
+  //   document,
+  //   name,
+  //   surname,
+  //   username,
+  //   email,
+  //   rol,
+  //   password
+  // } = req.body;
+  
+
+  // try {
+  //   // throw new Error('Exception message');
+  //   await User.exists({ username }, (error, result) => {
+  //     // managing error
+  //     if (error) {
+  //       res.status(400)
+  //       res.send(new returnBody(false, {}, `${error}`))
+  //     } else {
+  //       if (result) {
+  //         res.status(409)
+  //         res.send(new returnBody(false, { isRepeated: true}, `The user already exists`))
+  //       } else {
+  //         // creating the user from the body data
+  //         let user = new User({
+  //           document,
+  //           name,
+  //           surname,
+  //           username, 
+  //           email,
+  //           rol,
+  //           password
+  //         });
+  //         // saving the data in mongoose ant managing the possible errors
+  //         user.save((err) => {
+  //           if(err){
+  //             res.status(400)
+  //             res.send(new returnBody(false, {}, `${err}`))
+  //           }else{
+  //             // save was completed succesfully
+  //             user.password = undefined;
+  //             res.status(200)
+  //             res.send(new returnBody(true, user, {}))
+  //           }
+  //         });  
+  //       }
+  //     }
+  //   }).clone()
+  // } catch (error) {
+  //   res.status(400)
+  //   res.send(new returnBody(false, {}, `${error}`))
+  // } 
+
+  // nueva funcionalidad
+  const type = req.params.type
+  // validando el tipo de usuairo a ingresar
   try {
-    // throw new Error('Exception message');
-    User.exists({ username }, (error, result) => {
-      // managing error
-      if (error) {
-        res.status(400)
-        res.send(new returnBody(false, {}, `${error}`))
-      } else {
-        if (result) {
-          res.status(409)
-          res.send(new returnBody(false, { isRepeated: true}, `The user already exists`))
-        } else {
-          // creating the user from the body data
-          let user = new User({
-            document,
-            name,
-            surname,
-            username, 
-            email,
-            rol,
-            password
-          });
-          // saving the data in mongoose ant managing the possible errors
-          user.save((err) => {
-            if(err){
-              res.status(400)
-              res.send(new returnBody(false, {}, `${err}`))
-            }else{
-              // save was completed succesfully
-              user.password = undefined;
-              res.status(200)
-              res.send(new returnBody(true, user, {}))
-            }
-          });  
+    let result
+    if(type === roles.BENEFICIARY)
+      result = await controller.SignUpBeneficiary()
+    else if(type === roles.CLIENT)
+      result = await controller.SignUpClient()
+    else if(type === roles.ESTABLISHMENT)
+      result = await controller.SignUpEstablishment((error, result) => {
+        if(error){
+          res.status(400)
+          res.send(new returnBody(false, '', error))
+        }else {
+          res.status(200)
+          res.send(new returnBody(true, result, undefined))
         }
-      }
-    })
-  } catch (error) {
+      })
+    else{
+      res.status(400)
+      return res.send(new returnBody(false, 'No se ingreso un tipo de usuario valido', undefined))
+    }
+    res.status(200)
+    
+  }catch(error){
     res.status(400)
-    res.send(new returnBody(false, {}, `${error}`))
+    res.send(new returnBody(false, 'Hubo un error con los datos ingresados', error))
   }
+  
 })
 
 
@@ -88,7 +121,6 @@ router.get('/list-roles', async (req, res) => {
   res.status(200)
   res.send(roles)
 })
-
 
 
 

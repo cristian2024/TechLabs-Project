@@ -33,7 +33,7 @@ const donationSchema = new mongoose.Schema({
   },
   delivery_date: {
     type: Date,
-    default: Date.now()
+    // default: Date.now()
   }
 })
 

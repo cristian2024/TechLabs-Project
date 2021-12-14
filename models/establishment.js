@@ -26,10 +26,7 @@ const establishmentSchema = new mongoose.Schema({
     type: Number,
     // required: true
   },
-  phone: {
-    type: Number,
-    required: true
-  }
+  
 })
 
 module.exports = mongoose.model('Establishment', establishmentSchema);

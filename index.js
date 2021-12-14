@@ -43,6 +43,7 @@ function main(){
   
   app.use('/api/authentication', require('./routes/auth'))
   app.use('/api/establishment',require('./routes/establishment'))
+  app.use('/api/products', require('./routes/product'))
   // console.log('hola mundo')
   app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "YOUR-DOMAIN.TLD"); // update to match the domain you will make the request from
