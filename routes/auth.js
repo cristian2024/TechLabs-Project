@@ -75,15 +75,45 @@ router.post('/signup/:type', async (req, res) => {
 
   // nueva funcionalidad
   const type = req.params.type
+  
+
+  const { // data para creacion del usuario
+    identification,
+    username,
+    email,
+    phone, 
+    password
+  } = req.body
+  
+  
   // validando el tipo de usuairo a ingresar
   try {
-    let result
-    if(type === roles.BENEFICIARY)
-      result = await controller.SignUpBeneficiary()
-    else if(type === roles.CLIENT)
-      result = await controller.SignUpClient()
-    else if(type === roles.ESTABLISHMENT)
-      result = await controller.SignUpEstablishment((error, result) => {
+    
+    if(type === roles.BENEFICIARY){
+      const { // data para creacion de establecimiento
+        name,
+        surname,
+        gender,
+        address,
+        birth_date,
+        birth_country,
+        entailment_date
+      } = req.body
+
+      result = await controller.SignUpBeneficiary({
+        identification,
+        username,
+        email,
+        phone, 
+        password,
+        name,
+        surname,
+        gender,
+        address,
+        birth_date,
+        birth_country,
+        entailment_date
+      }, (error, result) => {
         if(error){
           res.status(400)
           res.send(new returnBody(false, '', error))
@@ -92,7 +122,91 @@ router.post('/signup/:type', async (req, res) => {
           res.send(new returnBody(true, result, undefined))
         }
       })
-    else{
+    }else if(type === roles.CLIENT){
+      const { // data para creacion de establecimiento
+        name,
+        surname,
+        qualification,
+        address
+      } = req.body
+
+      result = await controller.SignUpClient({
+        identification,
+        username,
+        email,
+        phone, 
+        password,
+        name,
+        surname,
+        qualification,
+        address
+      }, (error, result) => {
+        if(error){
+          res.status(400)
+          res.send(new returnBody(false, '', error))
+        }else {
+          res.status(200)
+          res.send(new returnBody(true, result, undefined))
+        }
+      })
+
+      // result = await controller.SignUpEstablishment({
+      //   identification,
+      //   username,
+      //   email,
+      //   phone, 
+      //   password,
+      //   establishment_name,
+      //   establishment_type,
+      //   city_id,
+      //   district,
+      //   schedule,
+      //   qualification
+      // },(error, result) => {
+      //   if(error){
+      //     res.status(400)
+      //     res.send(new returnBody(false, '', error))
+      //   }else {
+      //     res.status(200)
+      //     res.send(new returnBody(true, result, undefined))
+      //   }
+      // })
+
+
+      
+    }else if(type === roles.ESTABLISHMENT){
+      const { // data para creacion de establecimiento
+        establishment_name,
+        establishment_type,
+        city_id,
+        district,
+        schedule,
+        qualification
+      } = req.body
+
+
+      result = await controller.SignUpEstablishment({
+        identification,
+        username,
+        email,
+        phone, 
+        password,
+        establishment_name,
+        establishment_type,
+        city_id,
+        district,
+        schedule,
+        qualification
+      },(error, result) => {
+        if(error){
+          res.status(400)
+          res.send(new returnBody(false, '', error))
+        }else {
+          res.status(200)
+          res.send(new returnBody(true, result, undefined))
+        }
+      })
+    }else{
       res.status(400)
       return res.send(new returnBody(false, 'No se ingreso un tipo de usuario valido', undefined))
     }
@@ -100,7 +214,7 @@ router.post('/signup/:type', async (req, res) => {
     
   }catch(error){
     res.status(400)
-    res.send(new returnBody(false, 'Hubo un error con los datos ingresados', error))
+    res.send(new returnBody(false, 'Hubo un error con los datos ingresados', `${error}`))
   }
   
 })

@@ -11,23 +11,23 @@ const beneficiarySchema = new mongoose.Schema({
   },
   gender: {
     type: String,
-    required: true
+    // required: true
   },
-  addresss: {
+  address: {
     type: String,
-    required: true
+    // required: true
   },
   birth_date: {
     type: Date,
-    required: true  
+    // required: true  
   },
   birth_country: {
     type: String,
-    required: true
+    // required: true
   },
   entailment_date: {
     type: Date,
-    required: true
+    // required: true
   }
 })
 
