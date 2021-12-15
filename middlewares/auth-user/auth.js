@@ -66,19 +66,22 @@ async function setUser(req, res, next) {
 // cuando se llame, se le debe de pasar un array de Roles, asi sea solo un dato
 function authRole(roles){
   return (req, res, next) => {
+    
     try {
       //validando que el dato del usuario 'userData' halla sido cargado (vease el middleware 'setUser')
       if(req.userData === undefined || req.userData === null ) {
         res.status(401);
         return res.send('No se encuentra logueado');
       } else {
-        if (roles.includes(userData.rol)){ // validando que el usuario en cuestion tenga los permisos necesarios
+        
+        if (roles.includes(req.userData.rol.rol)){ // validando que el usuario en cuestion tenga los permisos necesarios
           // si los posee, se podra continuar con la ejecución normal
           next();
         } else { // el usuario no tiene los permisos para acceder
           res.status(403); // codigo 403 acceso no permitido
           return res.send({ message: 'El usuario no tiene los permisos necesarios'});
         }
+        
       }
       
     } catch (error) {

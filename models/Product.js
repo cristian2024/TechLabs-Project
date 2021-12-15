@@ -3,8 +3,12 @@ const types = require("../utils/Types")
 
 const productSchema = new mongoose.Schema({
   establishment_id: {
-    type: Number,
+    type: mongoose.Schema.Types.ObjectId,
     required: true
+  },
+  product_name:{
+    type: String,
+    required: [true, 'Es necesario proporcionar el nombre del producto']
   },
   product_type: {
     type: [String],
