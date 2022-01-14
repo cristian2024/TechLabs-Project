@@ -12,7 +12,8 @@ const router = express.Router();
 function returnBody(isCompleted, data, error){
   this.isCompleted = isCompleted;
   this.data = data;
-  this.error = error
+  this.error = error 
+  
 }
 '/api/authentication/signup'
 
