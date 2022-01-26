@@ -14,6 +14,24 @@ router.get("/list-types",(req,res) => {
   res.send(types)
 })
 
+router.get('', async (req, res ) => {
+  try {
+    await Product.find({}, (error, result) => {
+      if(error) {
+        res.status(400)
+        res.send({completed: false, message: `it happened an unexpected error: ${error}`})
+      }else{
+        res.status(200)
+        res.send(result)
+        //res.send({completed: true, data: result})
+      }
+    }).clone();
+  } catch (error) {
+    res.status(400)
+        res.send({completed: false, message: `it happened an unexpected error: ${error}`})
+  }
+})
+
 router.post('/new-product', setUser, authRole([ROLES.ESTABLISHMENT]) ,(req, res) => {
   const {
     product_type,
