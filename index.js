@@ -14,8 +14,10 @@ const app = express();
 
 function main(){
   //body parser
+  
   app.use(express.json()); 
   app.use(morgan('tiny'))
+  
   app.use(errorHandler.errorHandler)
   app.use(cors())
   
@@ -28,7 +30,7 @@ function main(){
   const uri = `mongodb+srv://${username}:${password}@cluster0.d3bkk.mongodb.net/${database}?retryWrites=true&w=majority`;
   const options = { useNewUrlParser: true, useUnifiedTopology: true }
   
-
+  
   mongoose.connect(uri, options).then(
     () => { 
       console.log('Conectado a DB') 
@@ -44,6 +46,7 @@ function main(){
   app.use('/api/authentication', require('./routes/auth'))
   app.use('/api/establishment',require('./routes/establishment'))
   app.use('/api/products', require('./routes/product'))
+  
   // console.log('hola mundo')
   app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "YOUR-DOMAIN.TLD"); // update to match the domain you will make the request from
@@ -51,7 +54,7 @@ function main(){
     next();
   });
   app.set('puerto', process.env.PORT || 3001)
-
+  
   app.listen(app.get('puerto'), () => {
     console.log(`Listening http://localhost:${app.get('puerto')}`);
   });
