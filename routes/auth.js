@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require('express');
 
 
 const auth = require('../middlewares/auth-user/auth')
@@ -16,9 +16,7 @@ function returnBody(isCompleted, data, error){
   this.error = error 
 }
 
-res.send(new returnBody(false, {}, {}))
-res.send({isCompleted: false, data: {}, error:{}})
-'/api/authentication/signup'
+
 
 
 
@@ -235,10 +233,6 @@ router.post('/changePassword',auth.setUser, auth.changePassword, async (req, res
 })
 
 
-router.get('/list-roles', async (req, res) => {
-  res.status(200)
-  res.send(roles)
-})
 
 
 

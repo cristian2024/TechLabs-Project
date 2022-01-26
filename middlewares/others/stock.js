@@ -41,9 +41,10 @@ module.exports = {
   },
   HasStock: async (req, res, next) => {
     const {
-      stock_id,
+      
       amount
-    }
+    } = req.body
+    const stock_id = req.stock_id
     if(!stock_id){
       res.status(400)
       res.send({error: 'You need to provide the stock_id'})
