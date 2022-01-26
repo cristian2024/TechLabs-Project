@@ -4,7 +4,8 @@ const express = require("express");
 const auth = require('../middlewares/auth-user/auth')
 const roles = require('../middlewares/auth-user/roles')
 
-const controller = require('../controllers/authentication')
+const controller = require('../controllers/authentication');
+const res = require( "express/lib/response" );
 
 const router = express.Router();
 
@@ -13,8 +14,10 @@ function returnBody(isCompleted, data, error){
   this.isCompleted = isCompleted;
   this.data = data;
   this.error = error 
-  
 }
+
+res.send(new returnBody(false, {}, {}))
+res.send({isCompleted: false, data: {}, error:{}})
 '/api/authentication/signup'
 
 
