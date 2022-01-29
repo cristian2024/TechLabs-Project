@@ -1,8 +1,7 @@
 const types = [
   "Pizza",
-  "Burguer",
+  "Burger",
   "Salad",
-  "Desert",
   "Fish",
   "Mexican",
   "Lunch",
@@ -14,17 +13,8 @@ const types = [
   "Dessert",
   "Sandwich",
   "Drinks",
-  "Combo 1",
-  "Combo 2",
-  "Combo 3",
-  "Combo 4",
-  "Combo 5",
-  "Combo 6",
-  "Combo 7",
-  "Combo 8",
-  "Combo 9",
-  "Combo 10",
-  
+  "Combos",
+  "On-site donations",
 ]
 
 module.exports = types

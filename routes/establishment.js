@@ -14,7 +14,7 @@ router.get('', async (req, res ) => {
         res.send({completed: false, message: `it happened an unexpected error: ${error}`})
       }else{
         res.status(200)
-        res.send({completed: true, data: result})
+        res.send(result)
       }
     }).clone();
   } catch (error) {
