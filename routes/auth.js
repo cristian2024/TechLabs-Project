@@ -237,12 +237,6 @@ router.post('/changePassword',auth.setUser, auth.changePassword, async (req, res
 })
 
 
-router.get('/list-roles', async (req, res) => {
-  res.status(200)
-  res.send(roles)
-})
-
-
 // function authApi(app) {
 //   const router = express.Router();
 //   app.use("/api/auth", router);
