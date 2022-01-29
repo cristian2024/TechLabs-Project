@@ -221,6 +221,10 @@ router.post('/signup/:type', async (req, res) => {
   
 })
 
+router.get('/list-roles', async (req, res) => {
+  res.status(200)
+  res.send(roles)
+})
 
 router.post('/signin', auth.setUser , async (req, res) => {
   res.status(200)
