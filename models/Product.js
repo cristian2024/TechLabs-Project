@@ -6,11 +6,15 @@ const productSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: true
   },
-  product_name:{
+  name:{
     type: String,
     required: [true, 'Es necesario proporcionar el nombre del producto']
   },
-  product_type: {
+  quantity:{
+    type: String,
+    // required: true
+  },
+  tags: {
     type: [String],
     enum: types
     // required: true
@@ -24,6 +28,14 @@ const productSchema = new mongoose.Schema({
     // required: true
   },
   elaboration_date: {
+    type: String,
+    // required: true
+  },
+  src: {
+    type: String,
+    // required: true
+  },
+  alt: {
     type: String,
     // required: true
   },

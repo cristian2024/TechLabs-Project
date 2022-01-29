@@ -36,8 +36,11 @@ router.get('', async (req, res ) => {
 
 router.post('/new-product', setUser, authRole([ROLES.ESTABLISHMENT]) ,(req, res, next) => {
   const {
-    product_type,
-    product_name,
+    tags,
+    name,
+    quantity,
+    src,
+    alt,
     description,
     elaboration_date,
   } = req.body
@@ -47,8 +50,11 @@ router.post('/new-product', setUser, authRole([ROLES.ESTABLISHMENT]) ,(req, res,
     req.establishment_id = establishment_id
     const producto = new Product({
       establishment_id,
-      product_type,
-      product_name,
+      tags,
+      name,
+      quantity,
+      src,
+      alt,
       description,
       elaboration_date,
     })
