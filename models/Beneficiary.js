@@ -27,6 +27,7 @@ const beneficiarySchema = new mongoose.Schema({
   },
   entailment_date: {
     type: Date,
+    default: Date.now
     // required: true
   }
 })
